@@ -22,6 +22,8 @@
 
 ## Scale Up / Scale Down
 
+## Application Best Practices
+
 # Part 3 - Upgrade / Debug
 
 ## Build another container image

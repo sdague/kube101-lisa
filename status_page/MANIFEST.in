@@ -1,0 +1,2 @@
+recursive-include status_page/templates *
+recursive-include status_page/static *

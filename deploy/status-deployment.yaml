@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: status-web
+  labels:
+    app: status-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: status-web
+  template:
+    metadata:
+      labels:
+        app: status-web
+    spec:
+      containers:
+      - name: status-web
+        image: registry.ng.bluemix.net/ny-power-test/status-page:1
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: status-web
+  labels:
+    app: status-web
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    name: status-web
+    protocol: TCP
+  selector:
+    app: status-web
+---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   annotations:
+#     kubernetes.io/tls-acme: "True"
+#     ingress.bluemix.net/redirect-to-https: "True"
+#   name: kube-showoff-www-ingress
+#   labels:
+#     app: kube-showoff-www-ingress
+# spec:
+#   tls:
+#    - hosts:
+#      - a.sdague-pres.us-east.containers.appdomain.cloud
+#      secretName: sdague-pres
+#   rules:
+#   - host: a.sdague-pres.us-east.containers.appdomain.cloud
+#     http:
+#       paths:
+#       - path: "/"
+#         backend:
+#           serviceName: status-web
+#           servicePort: 8181
+#       - path: "/.*"
+#         backend:
+#           serviceName: status-web
+#           servicePort: 8181
