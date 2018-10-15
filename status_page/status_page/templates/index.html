@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    Welcome to status_page
+      Welcome to status_page
+      <div class="kube-details">
+          Pod: {{ podname }}
+      </div>
   </body>
 </html>

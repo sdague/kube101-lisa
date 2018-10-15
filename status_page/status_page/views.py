@@ -1,3 +1,5 @@
+import os
+
 from flask import render_template
 
 from status_page import app
@@ -6,7 +8,7 @@ from status_page import app
 @app.route('/')
 def index():
     app.logger.warning('sample message')
-    return render_template('index.html')
+    return render_template('index.html', podname=os.environ.get('HOSTNAME'))
 
 @app.route('/health')
 def health():
