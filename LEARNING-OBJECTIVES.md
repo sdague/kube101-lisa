@@ -1,0 +1,22 @@
+What people should learn from this workshop.
+
+- Building a container image
+  - basic bundling of software
+  - tagging conventions
+- Deploying the initial container image
+- Life cycle of a deployment
+  - What happens when pod dies
+  - how health checks work
+- Exposing services to the network
+- Upgrade cycle of a deployment
+  - Updating image versions
+  - How rolling updates working
+  - How a failed update is halted
+- Debugging when things go wrong
+  - kubectl describe pod
+  - kubectl logs
+  - kubectl -it exec bash
+- Learning more (linking to future learning)
+  - Helm - templating
+  - Istio - service mesh
+  - Knative - image building and lifecycle

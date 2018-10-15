@@ -38,30 +38,3 @@ spec:
     protocol: TCP
   selector:
     app: status-web
----
-# apiVersion: extensions/v1beta1
-# kind: Ingress
-# metadata:
-#   annotations:
-#     kubernetes.io/tls-acme: "True"
-#     ingress.bluemix.net/redirect-to-https: "True"
-#   name: kube-showoff-www-ingress
-#   labels:
-#     app: kube-showoff-www-ingress
-# spec:
-#   tls:
-#    - hosts:
-#      - a.sdague-pres.us-east.containers.appdomain.cloud
-#      secretName: sdague-pres
-#   rules:
-#   - host: a.sdague-pres.us-east.containers.appdomain.cloud
-#     http:
-#       paths:
-#       - path: "/"
-#         backend:
-#           serviceName: status-web
-#           servicePort: 8181
-#       - path: "/.*"
-#         backend:
-#           serviceName: status-web
-#           servicePort: 8181
