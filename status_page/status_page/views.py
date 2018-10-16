@@ -26,7 +26,10 @@ def index():
     app.logger.warning('sample message')
     return render_template('index.html', podname=os.environ.get('HOSTNAME'))
 
-
+# r.lpush("service:mailserver", json.dumps({"status": "warn", "msg": "over 1000 items in a delayed state"}))
+#
+#
+#
 
 @app.route('/readiness')
 def readiness():
