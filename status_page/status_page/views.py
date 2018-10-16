@@ -28,7 +28,8 @@ def index():
 
 
 
-@app.route('/health')
-def health():
-    app.logger.info('Checking health')
+@app.route('/readiness')
+def readiness():
+    app.logger.info('Checking readiness')
+    REDIS.ping()
     return '{"status": "OK"}'
