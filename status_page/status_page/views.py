@@ -1,7 +1,7 @@
 import json
 import os
 
-from flask import render_template
+from flask import render_template, redirect, request
 import redis
 
 from status_page import app
@@ -31,7 +31,33 @@ def index():
 #
 #
 
-@app.route('/readiness')
+def validate_data(data):
+    """TODO: provide basic sanity checking for data"""
+    pass
+
+@app.route('/services', methods=['GET'])
+def get_services():
+    pass
+
+@app.route('/services/<name>', methods=['GET'])
+def service_log(name):
+    history = REDIS.lrange(name, 0, 20)
+    app.logger.warning(history)
+    # TODO return service for the item in question
+    return "OK"
+
+
+@app.route('/services/<name>', methods=['POST'])
+def service_update(name):
+    data = request.get_json(force=True)
+    app.logger.warning(request)
+    app.logger.warning(data)
+    validate_data(data)
+    REDIS.lpush(name, json.dumps(data))
+    return redirect('/services/{}'.format(name))
+
+
+@app.route('/readiness', methods=['GET'])
 def readiness():
     app.logger.info('Checking readiness')
     REDIS.ping()
