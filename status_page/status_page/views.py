@@ -39,6 +39,9 @@ def validate_data(data):
 def get_services():
     pass
 
+# Pull out the service entries for a specific name
+#
+# Should be sorted by date
 @app.route('/services/<name>', methods=['GET'])
 def service_log(name):
     history = REDIS.lrange(name, 0, 20)
@@ -47,6 +50,16 @@ def service_log(name):
     return "OK"
 
 
+# Update the service with a new log.
+#
+# The payload should be json of something like:
+#
+# {"status": "ok", "msg": "....."}
+#
+# We should then insert a timestamp to the data before saving.
+#
+# <name> should be of format: "service:$somename", that lets us do a
+# scan for service keys.
 @app.route('/services/<name>', methods=['POST'])
 def service_update(name):
     data = request.get_json(force=True)
