@@ -6,21 +6,24 @@
         <meta content="width=device-width" name="viewport">
         <meta charset="utf-8">
         <title>Service Status</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
-        <div id="header">
-            System Status
+        <div class="container">
+            <div id="header">
+                System Status
+            </div>
+            <div id="service-status">
+                <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+                <p>Waiting for database connection... <i class='em em-boat'></i></p>
+            </div>
+            <div id="podname">
+                Pod: {{ podname }}
+            </div>
         </div>
-        <div id="service-status">
-            <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-            <p>Waiting for database connection... <i class='em em-boat'></i></p>
-        </div>
-      </p>
-      <div id="podname">
-          Pod: {{ podname }}
-      </div>
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-      <script src="{{ url_for('static', filename='app.js') }}"></script>
-  </body>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='app.js') }}"></script>
+    </body>
 </html>
