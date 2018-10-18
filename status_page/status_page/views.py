@@ -2,8 +2,9 @@ import json
 import os
 import datetime
 
-from flask import render_template, redirect, request
+from flask import jsonify, render_template, redirect, request
 import redis
+from voluptuous import Schema, MultipleInvalid, Invalid
 
 from status_page import app
 
@@ -27,8 +28,21 @@ def details(name):
 #
 
 def validate_data(data):
+    s = Schema({
+            'status': str,
+            'msg': str
+            })
+    s(data)
     """TODO: provide basic sanity checking for data"""
-    pass
+
+@app.errorhandler(MultipleInvalid)
+@app.errorhandler(Invalid)
+def api_error(error):
+    response = jsonify({"error": 
+                        "Must provide a 'status' and a "
+                        "'msg' which must both be strings"})
+    response.status_code = 400
+    return response
 
 @app.route('/services', methods=['GET'])
 def get_services():
