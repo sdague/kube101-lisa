@@ -1,3 +1,16 @@
 body {
-  font-size: 20px;
+    font-size: 20px;
+    font-family: "IBM Plex Sans Text", san-serif;
+}
+
+td, th {
+    padding: 3px 10px
+}
+
+tr.heading {
+    background-color: #ccc;
+}
+
+tr.data:nth-child(even) {
+    background-color: #eef;
 }
