@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 from flask import render_template, redirect, request
 import redis
@@ -39,7 +40,20 @@ def validate_data(data):
 
 @app.route('/services', methods=['GET'])
 def get_services():
-    pass
+    services = REDIS.scan(0, "service:*")
+    status = []
+    for service in services[1]:
+        sdata = REDIS.lrange(service, 0, 0)[0]
+        app.logger.warning(sdata)
+        data = json.loads(sdata)
+        data["name"] = service.decode('utf-8')
+        status.append(data)
+    rdata = {
+        "podname": os.environ.get('HOSTNAME'),
+        "services": status
+    }
+    return json.dumps(rdata)
+
 
 # Pull out the service entries for a specific name
 #
@@ -68,6 +82,7 @@ def service_update(name):
     app.logger.warning(request)
     app.logger.warning(data)
     validate_data(data)
+    data["updated_at"] = time.time()
     REDIS.lpush(name, json.dumps(data))
     return redirect('/services/{}'.format(name))
 

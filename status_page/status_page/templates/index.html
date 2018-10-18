@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>status_page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  </head>
-  <body>
-      Welcome to status_page
-      <p>
-          {% for item in status %}
-          <li>{{ item.name }} - {{ item.status }} - {{ item.msg }}
-          {% endfor %}
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta charset="utf-8">
+        <meta content="width=device-width" name="viewport">
+        <meta charset="utf-8">
+        <title>Service Status</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <div id="header">
+            System Status
+        </div>
+        <div id="service-status">
+            <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+            <p>Waiting for database connection... <i class='em em-boat'></i></p>
+        </div>
       </p>
-      <div class="kube-details">
+      <div id="podname">
           Pod: {{ podname }}
       </div>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="{{ url_for('static', filename='app.js') }}"></script>
   </body>
 </html>
