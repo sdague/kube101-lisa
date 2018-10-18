@@ -15,19 +15,11 @@ REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASS)
 
 @app.route('/')
 def index():
-    services = REDIS.scan(0, "service:*")
-    app.logger.warning("services: {}".format(services))
-    status = []
-    for service in services[1]:
-        sdata = REDIS.lrange(service, 0, 0)[0]
-        app.logger.warning(sdata)
-        data = json.loads(sdata)
-        data["name"] = service.decode('utf-8')
-        status.append(data)
+    return render_template('index.html', podname=os.environ.get('HOSTNAME'))
 
-    app.logger.warning(status)
-    app.logger.warning('sample message')
-    return render_template('index.html', status=status, podname=os.environ.get('HOSTNAME'))
+@app.route('/details/<name>')
+def details(name):
+    return render_template('detail.html', name=name)
 
 # r.lpush("service:mailserver", json.dumps({"status": "warn", "msg": "over 1000 items in a delayed state"}))
 #
@@ -60,10 +52,14 @@ def get_services():
 # Should be sorted by date
 @app.route('/services/<name>', methods=['GET'])
 def service_log(name):
-    history = REDIS.lrange(name, 0, 20)
+    history = [json.loads(x) for x in REDIS.lrange(name, 0, 20)]
     app.logger.warning(history)
     # TODO return service for the item in question
-    return "OK"
+    rdata = {
+        "podname": os.environ.get('HOSTNAME'),
+        "history": history
+    }
+    return json.dumps(rdata)
 
 
 # Update the service with a new log.
@@ -78,6 +74,7 @@ def service_log(name):
 # scan for service keys.
 @app.route('/services/<name>', methods=['POST'])
 def service_update(name):
+    app.logger.warning(request)
     data = request.get_json(force=True)
     app.logger.warning(request)
     app.logger.warning(data)

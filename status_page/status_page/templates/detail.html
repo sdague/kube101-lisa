@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta charset="utf-8">
+        <meta content="width=device-width" name="viewport">
+        <meta charset="utf-8">
+        <title>Service Status for {{ name }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <script>
+      var serviceName = "{{ name }}";
+    </script>
+    <body>
+        <div id="header">
+            System Status for {{ name }}
+        </div>
+        <div id="service-history">
+            <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+            <p>Waiting for database connection... <i class='em em-boat'></i></p>
+        </div>
+        <div>
+            <form id="service-update">
+                <input autocomplete="off" id="service-status"
+                       type="text">
+                <input  autocomplete="off" id="service-msg"
+                        type="text">
+                <a href="#" id="service-submit">Submit</a>
+            </form>
+        </div>
+
+
+        <div id="podname">
+            Pod: {{ podname }}
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='detail.js') }}"></script>
+    </body>
+</html>
