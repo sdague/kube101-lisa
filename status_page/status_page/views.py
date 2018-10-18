@@ -20,11 +20,13 @@ def index():
     for service in services[1]:
         sdata = REDIS.lrange(service, 0, 0)[0]
         app.logger.warning(sdata)
-        status.append(json.loads(sdata))
+        data = json.loads(sdata)
+        data["name"] = service.decode('utf-8')
+        status.append(data)
 
     app.logger.warning(status)
     app.logger.warning('sample message')
-    return render_template('index.html', podname=os.environ.get('HOSTNAME'))
+    return render_template('index.html', status=status, podname=os.environ.get('HOSTNAME'))
 
 # r.lpush("service:mailserver", json.dumps({"status": "warn", "msg": "over 1000 items in a delayed state"}))
 #

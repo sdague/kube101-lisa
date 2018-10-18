@@ -7,6 +7,11 @@
   </head>
   <body>
       Welcome to status_page
+      <p>
+          {% for item in status %}
+          <li>{{ item.name }} - {{ item.status }} - {{ item.msg }}
+          {% endfor %}
+      </p>
       <div class="kube-details">
           Pod: {{ podname }}
       </div>
