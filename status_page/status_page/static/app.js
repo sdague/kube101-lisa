@@ -4,10 +4,21 @@ $(document).ready(function() {
     var updateServices = function(data) {
         var services = data.services;
         servicesStatus.empty();
+        servicesStatus.append("<table>");
+        servicesStatus.append("<tr><th>Service</th><th>Status</th><th>Last Updated</th><th>Comments</th></tr>");
+
         for (var i = 0; i < services.length; i++) {
             var service = services[i];
-            servicesStatus.append("<p>" + service.name + ": " + service.status + "</p>");
+
+            servicesStatus.append("<tr>");
+            servicesStatus.append("<td>" + service.name + "</td>");
+            servicesStatus.append("<td>" + service.status + "</td>");
+            servicesStatus.append("<td>" + service.updated_at + "</td>");
+            servicesStatus.append("<td>" + service.msg + "</td>");
+            servicesStatus.append("</tr>");
         }
+        servicesStatus.append("</table>");
+
     };
 
   // var handleSubmission = function(e) {

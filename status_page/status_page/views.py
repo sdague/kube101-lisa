@@ -1,6 +1,6 @@
 import json
 import os
-import time
+import datetime
 
 from flask import render_template, redirect, request
 import redis
@@ -82,7 +82,7 @@ def service_update(name):
     app.logger.warning(request)
     app.logger.warning(data)
     validate_data(data)
-    data["updated_at"] = time.time()
+    data["updated_at"] = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
     REDIS.lpush(name, json.dumps(data))
     return redirect('/services/{}'.format(name))
 
