@@ -8,7 +8,7 @@ $(document).ready(function() {
         var services = data.services;
         servicesStatus.empty();
         servicesStatus.append("<table>");
-        servicesStatus.append("<tr class='heading'><th>Service</th><th>Status</th><th>Last Updated</th><th>Comments</th></tr>");
+        servicesStatus.append("<tr class='heading'><th>Service</th><th>Status</th><th>Last Updated</th><th>Comments</th><th>History</th></tr>");
 
         for (var i = 0; i < services.length; i++) {
             var service = services[i];
@@ -18,6 +18,7 @@ $(document).ready(function() {
             row += "<td>" + service.status + "</td>";
             row += "<td>" + service.updated_at + "</td>";
             row += "<td>" + service.msg + "</td>";
+	    row += "<td><a href=\"details/" + service.name + "\">history</a></td>";
             row += "</tr>";
             servicesStatus.append(row);
         }
