@@ -1,5 +1,8 @@
 $(document).ready(function() {
     var servicesStatus = $("#service-status");
+    var serviceSubmit = $("#service-submit");
+    var serviceAdd = $("#service-add");
+
 
     var updateServices = function(data) {
         var services = data.services;
@@ -22,6 +25,16 @@ $(document).ready(function() {
 
     };
 
+
+    var handleSubmission = function(e) {
+        e.preventDefault();
+        var url = "/details/service:" + $("#service-add").val();
+        console.log(url);
+        window.location = url;
+        return false;
+    };
+
+    serviceSubmit.click(handleSubmission);
   // var handleSubmission = function(e) {
   //   e.preventDefault();
   //   var entryValue = entryContentElement.val()
