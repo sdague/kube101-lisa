@@ -20,7 +20,7 @@ def index():
 
 @app.route('/details/<name>')
 def details(name):
-    return render_template('detail.html', name=name)
+    return render_template('detail.html', name=name, podname=os.environ.get('HOSTNAME'))
 
 # r.lpush("service:mailserver", json.dumps({"status": "warn", "msg": "over 1000 items in a delayed state"}))
 #
