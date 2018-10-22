@@ -13,26 +13,58 @@
       var serviceName = "{{ name }}";
     </script>
     <body>
-        <div id="header">
-            System Status for {{ name }}
-        </div>
-        <div id="service-history">
-            <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-            <p>Waiting for database connection... <i class='em em-boat'></i></p>
-        </div>
-        <div>
-            <form id="service-update">
-                <input autocomplete="off" id="service-status"
-                       type="text">
-                <input  autocomplete="off" id="service-msg"
-                        type="text">
-                <a href="#" id="service-submit">Submit</a>
-            </form>
-        </div>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="/">System Status</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link"
+                               href="/details/service:{{ name }}">{{
+                                name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div id="header">
+                History for {{ name }}
+            </div>
+            <div id="service-history">
+                <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+                <p>Waiting for database connection... <i class='em em-boat'></i></p>
+            </div>
+            <div>
+                <h4>Update current status below</h4>
+                <form id="service-update">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="form-control"
+                                    id="service-status">
+                                <option>ok</option>
+                                <option>warn</option>
+                                <option>failed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <input  autocomplete="off" id="service-msg"
+                                    placeholder="Enter comment" class="form-control"
+                                    type="text">
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#" id="service-submit">Update</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
 
-        <div id="podname">
-            Pod: {{ podname }}
+            <div id="podname">
+                Pod: {{ podname }}
+            </div>
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="{{ url_for('static', filename='detail.js') }}"></script>

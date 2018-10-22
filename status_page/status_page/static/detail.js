@@ -8,20 +8,20 @@ $(document).ready(function() {
         console.log(data);
         var services = data.history;
         servicesStatus.empty();
-        servicesStatus.append("<table>");
-        servicesStatus.append("<tr><th>Status</th><th>Last Updated</th><th>Comments</th></tr>");
+        var table = "<table>";
+        table += "<tr class='heading'><th>Status</th><th>Last Updated</th><th>Comments</th></tr>";
 
         for (var i = 0; i < services.length; i++) {
             var service = services[i];
-
-            servicesStatus.append("<tr>");
-            servicesStatus.append("<td>" + service.status + "</td>");
-            servicesStatus.append("<td>" + service.updated_at + "</td>");
-            servicesStatus.append("<td>" + service.msg + "</td>");
-            servicesStatus.append("</tr>");
+            var row = "<tr class='data'>";
+            row += "<td class='status_" + service.status + "'>" + service.status + "</td>";
+            row += "<td>" + service.updated_at + "</td>";
+            row += "<td>" + service.msg + "</td>";
+            row += "</tr>";
+            table += row;
         }
-        servicesStatus.append("</table>");
-
+        table += "</table>";
+        servicesStatus.append(table);
     };
 
     var handleSubmission = function(e) {
@@ -29,11 +29,7 @@ $(document).ready(function() {
         var status = serviceStatus.val();
         var msg = serviceMsg.val();
         $.post("/services/" + serviceName, JSON.stringify({"status": status, "msg": msg}));
-        // if (entryValue.length > 0) {
-        //     entriesElement.append("<p>...</p>");
-        //     $.getJSON("rpush/guestbook/" + entryValue, appendGuestbookEntries);
-        //     entryContentElement.val("")
-        // }
+        window.location = "/";
         return false;
     };
 

@@ -14,3 +14,7 @@ tr.heading {
 tr.data:nth-child(even) {
     background-color: #eef;
 }
+
+.newservice {
+    padding-top: 2em;
+}
