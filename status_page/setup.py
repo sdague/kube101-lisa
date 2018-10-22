@@ -7,6 +7,11 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
+    entry_points={
+        'console_scripts': [
+            'status-page=status_page:run'
+        ],
+    },
     install_requires=[
         'flask',
         'redis',

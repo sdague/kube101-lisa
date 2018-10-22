@@ -12,37 +12,39 @@ REDIS_HOST = os.environ.get('REDIS_HOST', "localhost")
 REDIS_PORT = os.environ.get('REDIS_PORT', "6379")
 REDIS_PASS = os.environ.get('REDIS_PASS', "")
 
-REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASS)
+REDIS = redis.StrictRedis(
+    host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASS)
+
 
 @app.route('/')
 def index():
     return render_template('index.html', podname=os.environ.get('HOSTNAME'))
 
+
 @app.route('/details/<name>')
 def details(name):
-    return render_template('detail.html', name=name, podname=os.environ.get('HOSTNAME'))
+    return render_template('detail.html', name=name,
+                           podname=os.environ.get('HOSTNAME'))
 
-# r.lpush("service:mailserver", json.dumps({"status": "warn", "msg": "over 1000 items in a delayed state"}))
-#
-#
-#
 
 def validate_data(data):
     s = Schema({
-            'status': str,
-            'msg': str
-            })
+        'status': str,
+        'msg': str
+    })
     s(data)
     """TODO: provide basic sanity checking for data"""
+
 
 @app.errorhandler(MultipleInvalid)
 @app.errorhandler(Invalid)
 def api_error(error):
-    response = jsonify({"error": 
+    response = jsonify({"error":
                         "Must provide a 'status' and a "
                         "'msg' which must both be strings"})
     response.status_code = 400
     return response
+
 
 @app.route('/services', methods=['GET'])
 def get_services():
@@ -93,7 +95,8 @@ def service_update(name):
     app.logger.warning(request)
     app.logger.warning(data)
     validate_data(data)
-    data["updated_at"] = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+    data["updated_at"] = datetime.datetime.utcnow().\
+        replace(microsecond=0).isoformat()
     REDIS.lpush(name, json.dumps(data))
     return redirect('/services/{}'.format(name))
 

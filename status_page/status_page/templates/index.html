@@ -12,9 +12,12 @@
     </head>
     <body>
         <div class="container">
-            <div id="header">
-                System Status
-            </div>
+            <header class="masthead">
+                <div id="header">
+                    System Status
+                </div>
+            </header>
+            <main>
             <div id="service-status">
                 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
                 <p>Waiting for database connection... <i class='em em-boat'></i></p>
@@ -25,13 +28,15 @@
                 <form id="service-form">
                     <input autocomplete="off" id="service-add"
                            type="text">
-                    <a href="#" id="service-submit">Submit</a>
+                    <a href="#" id="service-submit">Add New Service</a>
                 </form>
             </div>
-
-            <div id="podname">
-                Pod: {{ podname }}
-            </div>
+            </main>
+            <footer>
+                <div id="podname">
+                    Pod: {{ podname }}
+                </div>
+            </footer>
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="{{ url_for('static', filename='app.js') }}"></script>
