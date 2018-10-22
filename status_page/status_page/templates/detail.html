@@ -29,7 +29,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container main">
             <div id="header">
                 History for {{ name }}
             </div>
@@ -60,12 +60,17 @@
                     </div>
                 </form>
             </div>
-
-
-            <div id="podname">
-                Pod: {{ podname }}
-            </div>
         </div>
+        <footer class="footer">
+            <div class="container text-muted">
+                <div class="row">
+                    <div id="initial-pod" class="col-md-6">Initial
+                        Pod: {{ podname }}</div>
+                    <div id="last-pod" class="col-md-6">Last
+                        Pod</div>
+                </div>
+            </div>
+        </footer>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="{{ url_for('static', filename='detail.js') }}"></script>
     </body>

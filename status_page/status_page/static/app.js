@@ -4,10 +4,11 @@ $(document).ready(function() {
     var servicesStatus = $("#service-status");
     var serviceSubmit = $("#service-submit");
     var serviceAdd = $("#service-add");
+    var lastPod = $("#last-pod");
 
     var updateServices = function(data) {
         var services = data.services;
-        var table = "<table>";
+        var table = "<table width='100%'>";
         table += "<tr class='heading'><th>Service</th><th>Status</th><th>Last Updated</th><th>Comments</th><th>History</th></tr>";
 
         for (var i = 0; i < services.length; i++) {
@@ -23,6 +24,8 @@ $(document).ready(function() {
             table += row;
         }
         table += "</table>";
+
+        lastPod.html("Last Pod: " + data.podname);
         if (table === contents) {
             return false;
         } else {
