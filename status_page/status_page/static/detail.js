@@ -1,3 +1,5 @@
+var contents;
+
 $(document).ready(function() {
     var servicesStatus = $("#service-history");
     var serviceStatus = $("#service-status");
@@ -5,9 +7,7 @@ $(document).ready(function() {
     var serviceSubmit = $("#service-submit");
 
     var updateLog = function(data) {
-        console.log(data);
         var services = data.history;
-        servicesStatus.empty();
         var table = "<table>";
         table += "<tr class='heading'><th>Status</th><th>Last Updated</th><th>Comments</th></tr>";
 
@@ -21,7 +21,14 @@ $(document).ready(function() {
             table += row;
         }
         table += "</table>";
-        servicesStatus.append(table);
+        if (table === contents) {
+            return false;
+        } else {
+            contents = table;
+            servicesStatus.empty();
+            servicesStatus.append(table);
+            return true;
+        }
     };
 
     var handleSubmission = function(e) {
