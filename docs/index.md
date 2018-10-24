@@ -1,4 +1,4 @@
-# Setup Instructions for IBM Cloud Account #
+# Setup Instructions for IBM Cloud Account
 
 In order to complete the Kubernetes 101 workshop at LISA you'll need
 the ability to provision a Kubernetes Cluster. We are providing IBM

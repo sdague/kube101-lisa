@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: status-web
-        image: registry.ng.bluemix.net/ny-power-test/status-page:1
+        image: registry.ng.bluemix.net/status_page/web:1
         imagePullPolicy: Always
         env:
           - name: REDIS_HOST
