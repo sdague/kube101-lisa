@@ -17,8 +17,9 @@ kubectl get nodes -o wide
 
 kubectl get service -l app=status-web -o wide
 
-kubectl describe pod/status-web-5c47b9b67b-57ksk
+kubectl get all -o wide
 
+kubectl describe pod/status-web-5c47b9b67b-57ksk
 
 kubectl apply -f deploy/redis-deployment.yaml
 

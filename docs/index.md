@@ -94,7 +94,7 @@ You will need the following tools to complete the tutorial:
 * ibm cloud cli - for interacting with ibm cloud
 * kubectl - for interacting with kubernetes
 
-### All in One Installer
+### Choice #1: All in One Installer
 
 The
 [All in One](https://github.com/IBM-Cloud/ibm-cloud-developer-tools)
@@ -103,7 +103,7 @@ installer for these tools works on Mac / Linux / Windows.
 This is the simplest install method for the tools, but it does install
 additional tools beyond what's minimally needed for this workshop.
 
-### Manual Installation
+### Choice #2: Manual Installation
 
 If you want to do a more manual installation of tools, you can do that
 as well, here is what you'll need. These instructions are only for
