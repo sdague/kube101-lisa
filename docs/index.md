@@ -115,7 +115,7 @@ installed on Windows.
 **On Ubuntu Linux:**
 
 ```
-> sudo apt install curl git
+sudo apt install curl git
 ```
 
 **On Mac:**
@@ -123,7 +123,7 @@ installed on Windows.
 curl comes with the system
 
 ```
-> brew install git
+brew install git
 ```
 
 #### Install IBM Cloud Cli
@@ -131,20 +131,20 @@ curl comes with the system
 **On Linux:**
 
 ```
-> curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
+curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
 ```
 
 **On Mac:**
 
 ```
-> curl -fsSL https://clis.ng.bluemix.net/install/osx | sh
+curl -fsSL https://clis.ng.bluemix.net/install/osx | sh
 ```
 
 You then need to install the Container plugins for IBM Cloud
 
 ```
-> ibmcloud plugin install -r "IBM Cloud" container-service
-> ibmcloud plugin install -r "IBM Cloud" container-registry
+ibmcloud plugin install -r "IBM Cloud" container-service
+ibmcloud plugin install -r "IBM Cloud" container-registry
 ```
 
 #### Install Kubectl
@@ -152,15 +152,15 @@ You then need to install the Container plugins for IBM Cloud
 **On Linux:**
 
 ```
-> curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-> sudo mv kubectl /usr/local/bin
-> sudo chmod +x /usr/local/bin/kubectl
+curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+sudo mv kubectl /usr/local/bin
+sudo chmod +x /usr/local/bin/kubectl
 ```
 
 **On Mac:**
 
 ```
-> curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
-> sudo mv kubectl /usr/local/bin
-> sudo chmod +x /usr/local/bin/kubectl
+curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
+sudo mv kubectl /usr/local/bin
+sudo chmod +x /usr/local/bin/kubectl
 ```
