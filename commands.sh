@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# Full list of commands from Kube 101 LISA workshop.
+#
+# In order to ensure there is a complete list of commands that
+# everyone has access to even if the screens have passed, this is
+# listed below.
+#
+# Note: some commands require a specific podname, those are listed as
+# $podname in the below script.
+
 ibmcloud cr namespace-add status_page
 
 ibmcloud cr build --tag \
@@ -19,13 +28,13 @@ kubectl get service -l app=status-web -o wide
 
 kubectl get all -o wide
 
-kubectl describe pod/status-web-5c47b9b67b-57ksk
+kubectl describe pod/$podname
 
 kubectl apply -f deploy/redis-deployment.yaml
 
 kubectl get pods -l app=status-web
 
-kubectl delete
+kubectl delete pod/$podname
 
 ## Upgrade
 
@@ -35,7 +44,7 @@ kubectl apply -f deploy/status-deployment.yaml
 
 kubectl get pods -l app=status-web
 
-kubectl logs status-web-5d6b4665dc-5t7c5
+kubectl logs $podname
 
 ibmcloud cr build --tag registry.ng.bluemix.net/status_page/web:3 status_page
 
@@ -45,4 +54,4 @@ kubectl get pods -l app=status-web
 
 ## Debug
 
-kubectl -it exec status-web-5c47b9b67b-cxk8c bash
+kubectl -it exec $podname bash
