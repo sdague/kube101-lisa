@@ -1,31 +1,33 @@
-# Developing Applications with Kubernetes #
+# Kubernetes 101
 
-- Kubernetes basics
-- Building Container Images
-- Deploying the application with Kubernetes
-- Upgrading and scaling the application with Kubernetes
-- Debugging your application in Kubernetes
+Hands on Build, Deploy, and Debug Workshop
+
+This is the code repository to go with the Kubernetes hands on
+workshop for LISA 2018. This workshop goes in 4 parts.
 
 # Part 1 - Setup - 30 minutes
 
-## Setup IBM Cloud Account
+During the setup portion of the workshop, please follow the detailed
+walk through at https://sdague.github.com/kube101-lisa. This includes
+direct links and screen shots.
 
-## Start Kubernetes Cluster
+Please start this as soon as possible, provisioning of clusters takes
+20 - 30 minutes.
 
-## Overview of Kubernetes Resources we'll see today
+# Part 2 - Kubernetes Concepts for Successful Application Building
 
-# Part 2 - Build and Start Application
+While clusters are provisioning, there will be an overview
+presentation for concepts in Kubernetes that we'll be using for the
+workshop.
 
-## Build container image
+# Part 3 - Build and Deploy your first application
 
-## Start application
+You will now build an application during the presentation. To help a
+list of all the commands in order for the rest of the workshop is
+included in the [commands.sh](commands.sh) file.
 
-## Scale Up / Scale Down
+# Part 4 - Upgrade / Debug / and Next steps
 
-## Application Best Practices
+This is where we'll upgrade and debug the application.
 
-# Part 3 - Upgrade / Debug
-
-## Build another container image
-
-## Why didn't that start, lets look into it
+# Feedback
