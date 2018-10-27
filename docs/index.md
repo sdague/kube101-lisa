@@ -172,3 +172,8 @@ You'll need the git repo to actually build and run the application.
 ```
 git clone https://github.com/sdague/kube101-lisa
 ```
+
+In addition to the code for the talk, this repository also contains a
+``commands.sh`` file which lists all the commands used in the
+presentation in order, so that it is easy to copy and paste them and
+you can catch up if you get behind on the presentation.
