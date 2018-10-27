@@ -164,3 +164,11 @@ curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/releas
 sudo mv kubectl /usr/local/bin
 sudo chmod +x /usr/local/bin/kubectl
 ```
+
+## Step 7: Clone Application Repo
+
+You'll need the git repo to actually build and run the application.
+
+```
+git clone https://github.com/sdague/kube101-lisa
+```
