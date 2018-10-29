@@ -12,6 +12,9 @@ through of that process.
     section {
         width: 800px;
     }
+    banner {
+        width: 100%;
+    }
 </style>
 
 ## Step 1: Register for IBM Cloud with the LISA url
