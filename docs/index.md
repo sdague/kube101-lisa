@@ -9,6 +9,9 @@ through of that process.
     img {
         border: 2px #445588 solid;
     }
+    section {
+        width: 800px;
+    }
 </style>
 
 ## Step 1: Register for IBM Cloud with the LISA url
