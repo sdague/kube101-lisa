@@ -12,7 +12,7 @@ through of that process.
     section {
         width: 800px;
     }
-    banner {
+    #banner {
         width: 100%;
     }
 </style>
