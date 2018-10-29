@@ -15,6 +15,12 @@ through of that process.
     #banner {
         width: 100%;
     }
+    nav {
+        text-align: left;
+    }
+    li.tag-h3 {
+        padding-left: 8px;
+    }
 </style>
 
 ## Step 1: Register for IBM Cloud with the LISA url
