@@ -12,6 +12,9 @@
 # Note: some commands require a specific podname, those are listed as
 # $podname in the below script.
 
+# Step 1: Clone this repository to your local machine and cd into the repo.
+# Rest of the commands assume you are in the root of this repo checkout.
+
 # Step 2: Build Image
 
 ibmcloud login --sso
