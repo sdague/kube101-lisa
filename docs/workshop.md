@@ -1,5 +1,23 @@
 # Kube 101 Workshop
 
+<style>
+    img {
+        border: 2px #445588 solid;
+    }
+    section {
+        width: 800px;
+    }
+    #banner {
+        width: 100%;
+    }
+    nav {
+        text-align: left;
+    }
+    li.tag-h3 {
+        padding-left: 8px;
+    }
+</style>
+
 This is the workflow for the Kubernetes 101 Workshop.
 
 ## Learning Objectives
