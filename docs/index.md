@@ -108,6 +108,8 @@ You will need the following tools to complete the tutorial:
 
 ### Choice #1: All in One Installer
 
+<details><summary>Install with all in one IDT install script</summary>
+
 The
 [All in One](https://github.com/IBM-Cloud/ibm-cloud-developer-tools)
 installer for these tools works on Mac / Linux / Windows.
@@ -115,7 +117,11 @@ installer for these tools works on Mac / Linux / Windows.
 This is the simplest install method for the tools, but it does install
 additional tools beyond what's minimally needed for this workshop.
 
+</details>
+
 ### Choice #2: Manual Installation
+
+<details><summary>Install Manually on Mac / Linux</summary>
 
 If you want to do a more manual installation of tools, you can do that
 as well, here is what you'll need. These instructions are only for
@@ -176,6 +182,18 @@ curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/releas
 sudo mv kubectl /usr/local/bin
 sudo chmod +x /usr/local/bin/kubectl
 ```
+</details>
+
+### Choice #3: Use Docker Container
+
+<details><summary>Install a Docker Container</summary>
+
+```
+docker run -it jjasghar/ibm-cloud-cli
+```
+
+</details>
+
 
 ## Step 7: Clone Application Repo
 
