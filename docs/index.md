@@ -108,92 +108,80 @@ You will need the following tools to complete the tutorial:
 
 ### Choice #1: All in One Installer
 
-<details><summary>Install with all in one IDT install script</summary>
+The
+[All in One](https://github.com/IBM-Cloud/ibm-cloud-developer-tools)
+installer for these tools works on Mac / Linux / Windows.
 
-    The
-    [All in One](https://github.com/IBM-Cloud/ibm-cloud-developer-tools)
-    installer for these tools works on Mac / Linux / Windows.
-
-    This is the simplest install method for the tools, but it does install
-    additional tools beyond what's minimally needed for this workshop.
-
-</details>
+This is the simplest install method for the tools, but it does install
+additional tools beyond what's minimally needed for this workshop.
 
 ### Choice #2: Manual Installation
 
-<details><summary>Install Manually on Mac / Linux</summary>
+If you want to do a more manual installation of tools, you can do that
+as well, here is what you'll need. These instructions are only for
+Linux or Mac because it is more complicated to get these tools
+installed on Windows.
 
-    If you want to do a more manual installation of tools, you can do that
-    as well, here is what you'll need. These instructions are only for
-    Linux or Mac because it is more complicated to get these tools
-    installed on Windows.
+#### Install curl / git
 
-    #### Install curl / git
+**On Ubuntu Linux:**
 
-    **On Ubuntu Linux:**
+```
+sudo apt install curl git
+```
 
-    ```
-    sudo apt install curl git
-    ```
+**On Mac:**
 
-    **On Mac:**
+curl comes with the system
 
-    curl comes with the system
+```
+brew install git
+```
 
-    ```
-    brew install git
-    ```
+#### Install IBM Cloud Cli
 
-    #### Install IBM Cloud Cli
+**On Linux:**
 
-    **On Linux:**
+```
+curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
+```
 
-    ```
-    curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
-    ```
+**On Mac:**
 
-    **On Mac:**
+```
+curl -fsSL https://clis.ng.bluemix.net/install/osx | sh
+```
 
-    ```
-    curl -fsSL https://clis.ng.bluemix.net/install/osx | sh
-    ```
+You then need to install the Container plugins for IBM Cloud
 
-        You then need to install the Container plugins for IBM Cloud
+```
+ibmcloud plugin install -r "IBM Cloud" container-service
+ibmcloud plugin install -r "IBM Cloud" container-registry
+```
 
-    ```
-    ibmcloud plugin install -r "IBM Cloud" container-service
-    ibmcloud plugin install -r "IBM Cloud" container-registry
-    ```
+#### Install Kubectl
 
-    #### Install Kubectl
+**On Linux:**
 
-    **On Linux:**
+```
+curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+sudo mv kubectl /usr/local/bin
+sudo chmod +x /usr/local/bin/kubectl
+```
 
-    ```
-    curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    sudo mv kubectl /usr/local/bin
-    sudo chmod +x /usr/local/bin/kubectl
-    ```
+**On Mac:**
 
-    **On Mac:**
-
-    ```
-    curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
-    sudo mv kubectl /usr/local/bin
-    sudo chmod +x /usr/local/bin/kubectl
-    ```
-</details>
+```
+curl --progress-bar -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
+sudo mv kubectl /usr/local/bin
+sudo chmod +x /usr/local/bin/kubectl
+```
 
 ### Choice #3: Use Docker Container
-
-<details><summary>Install a Docker Container</summary>
 
 ```
 docker run -it jjasghar/ibm-cloud-cli
 ```
-
-</details>
-
 
 ## Step 7: Clone Application Repo
 
