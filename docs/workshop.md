@@ -77,30 +77,42 @@ You must select a name for your image namespace, as these are globally
 unique. Once you have selected it replace the `$namespace` in all
 commands below with that value.
 
-```
+```command
 ibmcloud cr namespace-add $namespace
 ```
 
 Next we build the image using IBM Cloud's Image build farm. Remember
 to replace `$namespace` with your chosen namespace.
 
-```
+```command
 ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
 ```
 
 ## Step 3: Connect to Kube Cluster
 
-```
+```command
 ibmcloud ks cluster-config kubelisa
 ```
 
 Which returns something like
 
-```shell
+```
 OK
 
 The configuration for kubelisa was downloaded successfully. Export
 environment variables to start using Kubernetes.
 
 export KUBECONFIG=/home/sdague/.bluemix/plugins/container-service/clusters/kubelisa/kube-config-wdc06-kubelisa.yml
+```
+
+You must then run the `export` command to enable `kubectl` to access
+your cluster. For the rest of this exercise we'll be using `kubectl`
+for almost all actions.
+
+## Step 4: Explore the cluster
+
+A good starting point for the cluster is to look at all the resources:
+
+```command
+kubectl get all -o wide
 ```
