@@ -195,3 +195,7 @@ In addition to the code for the talk, this repository also contains a
 ``commands.sh`` file which lists all the commands used in the
 presentation in order, so that it is easy to copy and paste them and
 you can catch up if you get behind on the presentation.
+
+## Step 8: Do Workshop
+
+Now you are ready to run the [workshop](workshop)

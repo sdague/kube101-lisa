@@ -17,7 +17,7 @@
         padding-left: 8px;
     }
 
-    .highlighter-command code:before {
+    code.language-command:before {
     content: "> ";
     }
 </style>
