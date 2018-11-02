@@ -16,6 +16,10 @@
     li.tag-h3 {
         padding-left: 8px;
     }
+
+    .highlighter-command code:before {
+    content: "> ";
+    }
 </style>
 
 This is the workflow for the Kubernetes 101 Workshop.
@@ -46,8 +50,10 @@ to create an IBM Cloud Account using the [instructions provided](index.html).
 
 ## Step 1: Clone Repo
 
-```
+```command
 git clone https://github.com/sdague/kube101-lisa
+```
+```command
 cd kube101-lisa
 ```
 
@@ -58,7 +64,7 @@ the kubernetes configurations you'll need.
 
 First, we have to login to our environment:
 
-```
+```command
 ibmcloud login --sso
 ```
 
