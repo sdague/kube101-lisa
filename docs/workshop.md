@@ -30,6 +30,7 @@ to create an IBM Cloud Account using the [instructions provided](index.html).
 
 ```
 git clone https://github.com/sdague/kube101-lisa
+cd kube101-lisa
 ```
 
 This contains the application code for the python app, as well as all
@@ -37,13 +38,45 @@ the kubernetes configurations you'll need.
 
 ## Step 2: Build Image
 
-First, select a name for your image namespace. These must be globally
-unique. Replace `$namespace` below with whatever you have chosen.
+First, we have to login to our environment:
 
 ```
-cd kube101-lisa
 ibmcloud login --sso
-ibmcloud cr namespace-add $namespace
-ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
+```
 
+After doing that we need to create an image registry. In IBM Cloud you
+can have your own private image registry to build and store container
+images. This prevents anyone outside of your account from seeing
+these.
+
+You must select a name for your image namespace, as these are globally
+unique. Once you have selected it replace the `$namespace` in all
+commands below with that value.
+
+```
+ibmcloud cr namespace-add $namespace
+```
+
+Next we build the image using IBM Cloud's Image build farm. Remember
+to replace `$namespace` with your chosen namespace.
+
+```
+ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
+```
+
+## Step 3: Connect to Kube Cluster
+
+```
+ibmcloud ks cluster-config kubelisa
+```
+
+Which returns something like
+
+```shell
+OK
+
+The configuration for kubelisa was downloaded successfully. Export
+environment variables to start using Kubernetes.
+
+export KUBECONFIG=/home/sdague/.bluemix/plugins/container-service/clusters/kubelisa/kube-config-wdc06-kubelisa.yml
 ```
