@@ -38,12 +38,12 @@ the kubernetes configurations you'll need.
 ## Step 2: Build Image
 
 First, select a name for your image namespace. These must be globally
-unique.
+unique. Replace `$namespace` below with whatever you have chosen.
 
 ```
 cd kube101-lisa
 ibmcloud login --sso
-ibmcloud cr namespace-add <span class="namespace">status_page</span>
-ibmcloud cr build --tag registry.ng.bluemix.net/<span class="namespace">status_page</span>/web:1 status_page
+ibmcloud cr namespace-add $namespace
+ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
 
 ```
