@@ -24,9 +24,8 @@
     }
     code.language-command:before {
         content: "> ";
-        background-color: inherit;
-        color: inherit;
     }
+    code.language-command,
     code.language-output {
         background-color: inherit;
         color: inherit;
