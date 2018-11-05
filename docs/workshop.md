@@ -104,7 +104,7 @@ ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
 The following is the image file that we're building.
 
 ```docker
-ROM ubuntu:18.04
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
