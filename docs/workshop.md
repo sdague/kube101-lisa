@@ -25,15 +25,15 @@
     code.language-command:before {
         content: "> ";
     }
+    code.language-command::first-line {
+        font-weight: bold;
+        color: black;
+    }
     code.language-command,
     code.language-output {
         background-color: inherit;
         color: inherit;
         text-shadow: inherit;
-    }
-    code.language-command {
-        font-weight: bold;
-        color: black;
     }
 </style>
 
@@ -461,3 +461,5 @@ We learned about the following in this section
 - kubectl describe provides events which are good for debugging
 
 # Upgrade and Debug
+
+One of the most useful
