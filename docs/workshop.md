@@ -369,3 +369,57 @@ readiness check
 The reason the readiness probe is failing is that the redis datastore
 that's needed for the application hasn't been deployed. We can fix
 that in our next step.
+
+
+## Step 6: Deploy Datastore
+
+In order to fix the application, you need to deploy the redis
+deployment as well, then look at the results after.
+
+```command
+kubectl apply -f deploy/redis-deployment.yaml
+kubectl get all -o wide
+```
+
+```output
+NAME                                  READY     STATUS    RESTARTS   AGE       IP              NODE
+pod/redis-follower-78fbffc9db-5tf6m   1/1       Running   0          9s        172.30.112.89   10.190.15.245
+pod/redis-follower-78fbffc9db-g6k6h   1/1       Running   0          9s        172.30.112.90   10.190.15.245
+pod/redis-leader-56dcffbb55-gjqrg     1/1       Running   0          9s        172.30.112.88   10.190.15.245
+pod/status-web-64474bccd5-btmn5       0/1       Running   0          31m       172.30.112.86   10.190.15.245
+pod/status-web-64474bccd5-fwt5h       0/1       Running   0          31m       172.30.112.87   10.190.15.245
+pod/status-web-64474bccd5-rjq44       1/1       Running   0          31m       172.30.112.85   10.190.15.245
+
+NAME                     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE       SELECTOR
+service/kubernetes       ClusterIP   172.21.0.1       <none>        443/TCP          10d       <none>
+service/redis-follower   ClusterIP   172.21.208.184   <none>        6379/TCP         9s        app=redis,role=follower
+service/redis-leader     ClusterIP   172.21.199.58    <none>        6379/TCP         9s        app=redis,role=leader
+service/status-web       NodePort    172.21.161.127   <none>        5000:32101/TCP   31m       app=status-web
+
+NAME                             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS       IMAGES                                      SELECTOR
+deployment.apps/redis-follower   2         2         2            2           9s        redis-follower   redis:5.0-rc                                app=redis,role=follower
+deployment.apps/redis-leader     1         1         1            1           9s        redis-leader     redis:5.0-rc                                app=redis,role=leader
+deployment.apps/status-web       3         3         3            1           31m       status-web       registry.ng.bluemix.net/status_page/web:1   app=status-web
+
+NAME                                        DESIRED   CURRENT   READY     AGE       CONTAINERS       IMAGES                                      SELECTOR
+replicaset.apps/redis-follower-78fbffc9db   2         2         2         9s        redis-follower   redis:5.0-rc                                app=redis,pod-template-hash=3496997586,role=follower
+replicaset.apps/redis-leader-56dcffbb55     1         1         1         9s        redis-leader     redis:5.0-rc                                app=redis,pod-template-hash=1287996611,role=leader
+replicaset.apps/status-web-64474bccd5       3         3         1         31m       status-web       registry.ng.bluemix.net/status_page/web:1   app=status-web,pod-template-hash=2003067781
+```
+
+You can see that the status application will start to go READY after
+the redis deployment is up and READY. Readiness checks happen every 10
+seconds so it will take a little bit of time before it's detected.
+
+The application will now work.
+
+## Step 7: System Status Application
+
+You can now use the application. The front page allows you to add
+services, and the service specific page allows you to add
+statuses. You can keep the application up in multiple tabs and see it
+refreshing in near real time.
+
+![system status front page](images/status_status_front.png)
+
+![status service details](images/status_service.png)
