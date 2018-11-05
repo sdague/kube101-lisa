@@ -99,6 +99,39 @@ to replace `$namespace` with your chosen namespace.
 ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
 ```
 
+```output
+Sending build context to Docker daemon   22.2MB
+Step 1/11 : FROM ubuntu:18.04
+18.04: Pulling from library/ubuntu
+473ede7ed136: Pull complete
+c46b5fa4d940: Pull complete
+93ae3df89c92: Pull complete
+6b1eed27cade: Pull complete
+Digest: sha256:29934af957c53004d7fb6340139880d23fb1952505a15d69a03af0d1418878cb
+Status: Downloaded newer image for ubuntu:18.04
+
+...
+
+Step 11/11 : CMD flask run -h 0.0.0.0
+ ---> Running in 6c6b234b3af5
+ ---> 0fafed49d891
+Removing intermediate container 6c6b234b3af5
+Successfully built 0fafed49d891
+Successfully tagged registry.ng.bluemix.net/status_page/web:1
+The push refers to a repository [registry.ng.bluemix.net/status_page/web]
+54084949a5fc: Pushed
+1b7b005ebbd4: Pushed
+cdfea8cbb4bd: Pushed
+76c033092e10: Layer already exists
+2146d867acf3: Layer already exists
+ae1f631f14b7: Layer already exists
+102645f1cf72: Layer already exists
+1: digest: sha256:bf0e91c99df7a67b8c83c4eea2d37bad65bca1ad7454812a068fbbe051a89851 size: 1785
+
+OK
+
+```
+
 ### The Application Image
 
 The following is the image file that we're building.
@@ -121,6 +154,24 @@ RUN pip3 install -U .
 
 CMD flask run -h 0.0.0.0
 ```
+
+This has a few basic container image stanzas:
+
+- FROM - specify a base image, in our case a dockerhub ubuntu 18.04
+  minimal image
+-  ENV - specify environment variables. Many are needed for apt to run
+   cleanly
+- RUN - run a command. We do an apt install, as well as a pip install
+  later
+- COPY - copy files from the local directory into the image. This is
+  how we load in our application.
+- WORKDIR - set the working directory for the image
+- CMD - what command should we run if nothing else is specified via
+  kubernetes.
+
+It is important that `flask` is passed the `-h 0.0.0.0`
+argument. Without that, it would bind to localhost (i.e. 127.0.0.1),
+which would not allow inbound connections.
 
 ## Step 3: Connect to Kube Cluster
 
@@ -159,3 +210,56 @@ service/kubernetes   ClusterIP   172.21.0.1   <none>        443/TCP   10d       
 
 A kuberenetes cluster starts with very little in it's default namespace. There is just a
 single service for the kubernetes API itself.
+
+## Step 5: Deploying the Application
+
+**Note:** you have to change your image url in the files to match you
+chosen `$namespace` above.
+
+Edit the `deploy/status-deployment.yaml` file and replace
+`status_page` with your chosen `$namespace`:
+
+```yaml
+...
+    spec:
+      containers:
+      - name: status-web
+        image: registry.ng.bluemix.net/status_page/web:1
+        imagePullPolicy: Always
+...
+```
+
+Then you can deploy the application:
+
+```command
+kubectl apply -f deploy/status-deployment.yaml
+```
+
+```output
+deployment.apps "status-web" created
+service "status-web" created
+```
+
+Then look at what happened:
+
+```command
+kubectl get all -o wide
+```
+
+```output
+NAME                              READY     STATUS    RESTARTS   AGE       IP              NODE
+pod/status-web-64474bccd5-btmn5   0/1       Running   0          33s       172.30.112.86   10.190.15.245
+pod/status-web-64474bccd5-fwt5h   0/1       Running   0          33s       172.30.112.87   10.190.15.245
+pod/status-web-64474bccd5-rjq44   0/1       Running   0          33s       172.30.112.85   10.190.15.245
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE       SELECTOR
+service/kubernetes   ClusterIP   172.21.0.1       <none>        443/TCP          10d       <none>
+service/status-web   NodePort    172.21.161.127   <none>        5000:32101/TCP   33s       app=status-web
+
+NAME                         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS   IMAGES                                      SELECTOR
+deployment.apps/status-web   3         3         3            0           33s       status-web   registry.ng.bluemix.net/status_page/web:1   app=status-web
+
+NAME                                    DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES                                      SELECTOR
+replicaset.apps/status-web-64474bccd5   3         3         0         33s       status-web   registry.ng.bluemix.net/status_page/web:1   app=status-web,pod-template-hash=2003067781
+
+```
