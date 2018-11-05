@@ -25,15 +25,15 @@
     code.language-command:before {
         content: "> ";
     }
-    code.language-command::first-line {
-        font-weight: bold;
-        color: black;
-    }
     code.language-command,
     code.language-output {
         background-color: inherit;
         color: inherit;
         text-shadow: inherit;
+    }
+    code.language-command {
+        font-weight: bold;
+        color: black;
     }
 </style>
 
@@ -101,7 +101,9 @@ to replace `$namespace` with your chosen namespace.
 
 ```command
 ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
+```
 
+```output
 Sending build context to Docker daemon   22.2MB
 Step 1/11 : FROM ubuntu:18.04
 18.04: Pulling from library/ubuntu
