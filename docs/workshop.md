@@ -25,6 +25,10 @@
     code.language-command:before {
         content: "> ";
     }
+    code.language-command {
+        font-weight: bold;
+        color: black;
+    }
     code.language-command,
     code.language-output {
         background-color: inherit;
