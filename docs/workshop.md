@@ -36,8 +36,11 @@
         color: black;
     }
     nav {
-        height: 70%;
+        height: 60%;
         overflow-y: auto;
+    }
+    footer {
+        display: none;
     }
 </style>
 
