@@ -29,6 +29,7 @@
     code.language-output {
         background-color: inherit;
         color: inherit;
+        text-shadow: inherit;
     }
 </style>
 
