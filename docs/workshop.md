@@ -35,6 +35,10 @@
         font-weight: bold;
         color: black;
     }
+    nav {
+        height: 70%;
+        overflow-y: auto;
+    }
 </style>
 
 This is the workflow for the Kubernetes 101 Workshop.
@@ -467,6 +471,137 @@ We learned about the following in this section
 
 # Upgrade and Debug
 
-One of the most useful
+One of the most import parts of application lifecycle is what do
+upgrades look like. Applications that are deployed as Kubernetes
+`deployments` automatically are upgraded by a rolling upgrade
+strategy, that has some safeguards.
 
-## Step 1
+To see these in action we'll do an upgrade, but we'll also make sure
+it goes wrong the first time.
+
+## Step 1: Make a Bad Image
+
+First we'll have to edit our code to make it invalid python. We can do
+this by modifying `status_page/status_page/view.py` and adding a bad
+line near the top such as `import noimport`. Any other python error is
+fine as well.
+
+After we do this, lets rebuild the image, giving it a new version: `2`.
+
+```command
+ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:2 status_page
+```
+
+## Step 2: Upgrade Image
+
+We can now upgrade the application to use this new image. Edit
+`deploy/status-deployment.yaml` to reference `:2` instead of `:1`.
+
+Then run:
+
+```command
+kubectl apply -f deploy/status-deployment.yaml
+```
+
+```command
+kubectl get pods -l app=status-web
+```
+
+```output
+NAME                          READY     STATUS    RESTARTS   AGE
+status-web-64474bccd5-bllzb   1/1       Running   0          1h
+status-web-64474bccd5-fwt5h   1/1       Running   0          2h
+status-web-64474bccd5-rjq44   1/1       Running   0          2h
+status-web-b65fd45f6-nrntw    0/1       Error     3          1m
+```
+
+We can see that the pod with the new image went into an error state,
+and because it did, the existing application was left running. So a
+bad software push was prevented from taking down our application.
+
+## Step 3: Finding out what's wrong - logs
+
+We can use the built in kubernetes logging facility to inspect the
+broken pod. This is a common way of discovering what is wrong with an
+application.
+
+
+```command
+kubectl logs status-web-b65fd45f6-nrntw
+```
+
+```output
+ * Serving Flask app "status_page"
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+Usage: flask run [OPTIONS]
+
+Error: While importing "status_page", an ImportError was raised:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/flask/cli.py", line 235, in locate_app
+    __import__(module_name)
+  File "/var/www/status_page/status_page/__init__.py", line 19, in <module>
+    import status_page.views  # noqa
+  File "/var/www/status_page/status_page/views.py", line 5, in <module>
+    import noimport
+ModuleNotFoundError: No module named 'noimport'
+```
+
+And we can see the application crash there. It is easy in this case to
+resolve this issue by removing our broken line, and creating a new
+image `:3` that fixes things.
+
+After you do this you'll see something like follows:
+
+```command
+kubectl get pods -l app=status-web
+```
+
+```output
+NAME                          READY     STATUS        RESTARTS   AGE
+status-web-64474bccd5-bllzb   1/1       Terminating   0          1h
+status-web-64474bccd5-fwt5h   1/1       Running       0          2h
+status-web-64474bccd5-rjq44   1/1       Running       0          2h
+status-web-666d49df6c-bxvzn   1/1       Running       0          10s
+status-web-666d49df6c-rfbzf   0/1       Running       0          7s
+status-web-b65fd45f6-nrntw    0/1       Terminating   5          5m
+```
+
+The `:2` image based pod is terminated, we don't want any of those out
+there. An image `:3` based pod is rolled out, and once it goes into a
+Running and READY state the system starts cleaning up the image `:1`
+pods, replacing them one by one.
+
+## Step 4: Interactive Debug
+
+The is one last tool to put in your toolkit, interactive
+debugging. Some times you just need to get on a pod and get yourself
+oriented about the ways that the runtime is different than you
+imagine. Maybe a network path isn't clear, or a hostname is resolving
+in a way you don't expect.
+
+For those times you can run:
+
+```command
+kubectl -it exec status-web-666d49df6c-bxvzn bash
+```
+
+And it will drop you into an interactive shell on that pod. It's
+important to know this is for orientation only. Any changes to
+container images done in this way will be reset if that pod goes
+away. This isn't how you fix issues, it's how you inspect the
+environment to figure out why it's not matching the model you have in
+your head.
+
+# Final Thoughts
+
+Kubernetes is a system based on the extracted patterns of container
+management from many cloud providers. It puts many best practices into
+the platform, such as health checks, rolling upgrades, and consistent
+event and logging capture.
+
+We have only scratched the surface here, but this hopefully provides
+you a solid base to explore Kubernetes further.
