@@ -378,6 +378,9 @@ deployment as well, then look at the results after.
 
 ```command
 kubectl apply -f deploy/redis-deployment.yaml
+```
+
+```command
 kubectl get all -o wide
 ```
 
@@ -432,6 +435,8 @@ one of them out of the list and do a delete like follows:
 
 ```command
 kubectl delete pod/status-web-64474bccd5-btmn5
+```
+```command
 kubectl get all -o wide
 ```
 
@@ -463,3 +468,5 @@ We learned about the following in this section
 # Upgrade and Debug
 
 One of the most useful
+
+## Step 1
