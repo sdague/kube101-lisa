@@ -423,3 +423,41 @@ refreshing in near real time.
 ![system status front page](images/status_status_front.png)
 
 ![status service details](images/status_service.png)
+
+## Step 8: Pod Lifecycle - Recovering from Failures
+
+It's worth experiencing the deployment recovery of pods on your
+own. One way to do this is to delete one of our status-web pods. Pick
+one of them out of the list and do a delete like follows:
+
+```command
+kubectl delete pod/status-web-64474bccd5-btmn5
+kubectl get all -o wide
+```
+
+```output
+NAME                                  READY     STATUS              RESTARTS   AGE       IP              NODE
+pod/redis-follower-78fbffc9db-5tf6m   1/1       Running             0          13m       172.30.112.89   10.190.15.245
+pod/redis-follower-78fbffc9db-g6k6h   1/1       Running             0          13m       172.30.112.90   10.190.15.245
+pod/redis-leader-56dcffbb55-gjqrg     1/1       Running             0          13m       172.30.112.88   10.190.15.245
+pod/status-web-64474bccd5-bllzb       0/1       ContainerCreating   0          1s        <none>          10.190.15.245
+pod/status-web-64474bccd5-btmn5       1/1       Terminating         0          44m       172.30.112.86   10.190.15.245
+pod/status-web-64474bccd5-fwt5h       1/1       Running             0          44m       172.30.112.87   10.190.15.245
+pod/status-web-64474bccd5-rjq44       1/1       Running             0          44m       172.30.112.85   10.190.15.245
+...
+```
+
+You'll see that there is a terminating pod, and immediately a new
+ContainerCreating pod.
+
+## Lessons Learned
+
+We learned about the following in this section
+
+- Kuberenetes Deployments / Pods / Services
+- It's YAML all the way down
+- Readiness Checks ensure application is exposed to user only when ready
+- Deployments provide very basic HA/restart for services
+- kubectl describe provides events which are good for debugging
+
+# Upgrade and Debug
