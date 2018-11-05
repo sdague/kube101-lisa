@@ -16,9 +16,20 @@
     li.tag-h3 {
         padding-left: 8px;
     }
-
+    pre {
+        background-color: inherit;
+    }
+    pre.highlight {
+        background-color: #333333;
+    }
     code.language-command:before {
-    content: "> ";
+        content: "> ";
+        background-color: inherit;
+        color: inherit;
+    }
+    code.language-output {
+        background-color: inherit;
+        color: inherit;
     }
 </style>
 
