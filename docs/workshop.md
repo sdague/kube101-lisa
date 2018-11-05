@@ -25,15 +25,15 @@
     code.language-command:before {
         content: "> ";
     }
-    code.language-command {
-        font-weight: bold;
-        color: black;
-    }
     code.language-command,
     code.language-output {
         background-color: inherit;
         color: inherit;
         text-shadow: inherit;
+    }
+    code.language-command {
+        font-weight: bold;
+        color: black;
     }
 </style>
 
