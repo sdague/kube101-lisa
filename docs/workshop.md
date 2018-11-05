@@ -101,9 +101,7 @@ to replace `$namespace` with your chosen namespace.
 
 ```command
 ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
-```
 
-```output
 Sending build context to Docker daemon   22.2MB
 Step 1/11 : FROM ubuntu:18.04
 18.04: Pulling from library/ubuntu
