@@ -267,3 +267,105 @@ NAME                                    DESIRED   CURRENT   READY     AGE       
 replicaset.apps/status-web-64474bccd5   3         3         0         33s       status-web   registry.ng.bluemix.net/status_page/web:1   app=status-web,pod-template-hash=2003067781
 
 ```
+
+### Connect to Application
+
+Once the application is deployed, we can connect to it. Because we are
+using a **NodePort** we need to run a couple of commands to determine
+the url for the application.
+
+```command
+kubectl get nodes -o wide
+```
+
+```output
+NAME            STATUS    ROLES     AGE       VERSION       EXTERNAL-IP    OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+10.190.15.245   Ready     <none>    10d       v1.10.8+IKS   169.61.97.62   Ubuntu 16.04.5 LTS   4.4.0-137-generic   docker://17.6.2
+```
+
+The import information here is the `EXTERNAL-IP`.
+
+```command
+kubectl get service -l app=status-web -o wide
+```
+
+```output
+NAME         TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE       SELECTOR
+status-web   NodePort   172.21.161.127   <none>        5000:32101/TCP   13m       app=status-web
+```
+
+Here we need the 2nd port listed under ports. That's what's exposed to
+the outside world.
+
+The above would give us a URL of **http://169.61.97.62:32101**.
+
+Did it work?
+
+### Discovering what's going on
+
+Run the following command again:
+
+```command
+kubectl get pod -l app=status-web -o wide
+```
+
+```output
+NAME                          READY     STATUS    RESTARTS   AGE       IP              NODE
+status-web-64474bccd5-btmn5   0/1       Running   0          18m       172.30.112.86   10.190.15.245
+status-web-64474bccd5-fwt5h   0/1       Running   0          18m       172.30.112.87   10.190.15.245
+status-web-64474bccd5-rjq44   0/1       Running   0          18m       172.30.112.85   10.190.15.245
+```
+
+What's going on in that `READY` field? Why aren't any of our services
+ready?
+
+Let's start with looking at one of the pods and see if we can see:
+
+```command
+kubectl describe pod/status-web-64474bccd5-rjq44
+```
+
+```output
+...
+Events:
+  Type     Reason                 Age                 From                    Message
+  ----     ------                 ----                ----                    -------
+  Normal   Scheduled              21m                 default-scheduler       Successfully assigned status-web-64474bccd5-rjq44 to 10.190.15.245
+  Normal   SuccessfulMountVolume  21m                 kubelet, 10.190.15.245  MountVolume.SetUp succeeded for volume "default-token-hsk5t"
+  Normal   Pulling                21m                 kubelet, 10.190.15.245  pulling image "registry.ng.bluemix.net/status_page/web:1"
+  Normal   Pulled                 21m                 kubelet, 10.190.15.245  Successfully pulled image "registry.ng.bluemix.net/status_page/web:1"
+  Normal   Created                21m                 kubelet, 10.190.15.245  Created container
+  Normal   Started                21m                 kubelet, 10.190.15.245  Started container
+  Warning  Unhealthy              1m (x119 over 21m)  kubelet, 10.190.15.245  Readiness probe failed: HTTP probe failed with statuscode: 500
+```
+
+Ah, we're failing a readiness probe. Because we're failing readiness,
+the pods in question aren't being added to the service pool, and thus
+there is nothing to answer the incoming requests.
+
+If we look at our deployment yaml we'll see that we included a
+readiness check
+
+```yaml
+...
+    spec:
+      containers:
+      - name: status-web
+        image: registry.ng.bluemix.net/status_page/web:1
+        imagePullPolicy: Always
+        env:
+          - name: REDIS_HOST
+            value: "redis-leader"
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 5000
+```
+
+The reason the readiness probe is failing is that the redis datastore
+that's needed for the application hasn't been deployed. We can fix
+that in our next step.
