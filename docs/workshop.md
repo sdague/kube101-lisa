@@ -88,6 +88,29 @@ to replace `$namespace` with your chosen namespace.
 ibmcloud cr build --tag registry.ng.bluemix.net/$namespace/web:1 status_page
 ```
 
+### The Application Image
+
+The following is the image file that we're building.
+
+```docker
+ROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+ENV FLASK_APP status_page
+ENV STATUS_PAGE_SETTINGS ../settings.cfg
+
+RUN apt-get update && apt-get install -y python3 python3-dev python3-pip && apt-get clean
+
+COPY ./ /var/www/status_page
+WORKDIR /var/www/status_page
+
+RUN pip3 install -U .
+
+CMD flask run -h 0.0.0.0
+```
+
 ## Step 3: Connect to Kube Cluster
 
 ```command
@@ -109,6 +132,7 @@ You must then run the `export` command to enable `kubectl` to access
 your cluster. For the rest of this exercise we'll be using `kubectl`
 for almost all actions.
 
+
 ## Step 4: Explore the cluster
 
 A good starting point for the cluster is to look at all the resources:
@@ -116,3 +140,11 @@ A good starting point for the cluster is to look at all the resources:
 ```command
 kubectl get all -o wide
 ```
+
+```output
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE       SELECTOR
+service/kubernetes   ClusterIP   172.21.0.1   <none>        443/TCP   10d       <none>
+```
+
+A kuberenetes cluster starts with very little in it's default namespace. There is just a
+single service for the kubernetes API itself.
