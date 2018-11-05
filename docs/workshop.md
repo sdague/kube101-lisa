@@ -96,7 +96,7 @@ ibmcloud ks cluster-config kubelisa
 
 Which returns something like
 
-```
+```output
 OK
 
 The configuration for kubelisa was downloaded successfully. Export
