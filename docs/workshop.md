@@ -17,7 +17,7 @@
         padding-left: 8px;
     }
     pre {
-        background-color: inherit;
+        background-color: #eee;
     }
     pre.highlight {
         background-color: #333333;
